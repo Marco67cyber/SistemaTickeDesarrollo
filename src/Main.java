@@ -1,20 +1,21 @@
-import acceso_datos.UsuarioDAO;
+import presentacion.FrmLogin;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("--- Prueba Unitaria: HJM-02 Desactivación Lógica ---");
         
-        UsuarioDAO dao = new UsuarioDAO();
-        
-        // Inserte aquí un RUT que exista en su base de datos local
-        String rutPrueba = "26463490-3";
-        
-        boolean resultado = dao.desactivarUsuarioLogicamente(rutPrueba);
-        
-        if (resultado) {
-            System.out.println("Transacción exitosa. El usuario ha sido desactivado del sistema.");
-        } else {
-            System.out.println("Fallo en la transacción. Verifique que el RUT exista y la conexión esté activa.");
+        // Ponerle un estilo más moderno a las ventanas (Look and Feel)
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            System.out.println("Error cargando el tema visual.");
         }
+
+        // Arrancar la interfaz gráfica de forma segura
+        SwingUtilities.invokeLater(() -> {
+            FrmLogin ventanaLogin = new FrmLogin();
+            ventanaLogin.setVisible(true);
+        });
     }
 }
