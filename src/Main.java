@@ -1,20 +1,20 @@
-import acceso_datos.Conexion;
-import java.sql.Connection;
+import acceso_datos.UsuarioDAO;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Iniciando prueba de conexión...");
-        Connection cn = Conexion.conectar();
+        System.out.println("--- Prueba Unitaria: HJM-02 Desactivación Lógica ---");
         
-        if (cn != null) {
-            System.out.println("¡Éxito! La aplicación Java se ha conectado a MySQL mediante JDBC.");
-            try {
-                cn.close(); // Cerramos la conexión de prueba
-            } catch (Exception e) {
-                System.out.println("Error al cerrar: " + e.getMessage());
-            }
+        UsuarioDAO dao = new UsuarioDAO();
+        
+        // Inserte aquí un RUT que exista en su base de datos local
+        String rutPrueba = "26463490-3";
+        
+        boolean resultado = dao.desactivarUsuarioLogicamente(rutPrueba);
+        
+        if (resultado) {
+            System.out.println("Transacción exitosa. El usuario ha sido desactivado del sistema.");
         } else {
-            System.out.println("Fallo en la conexión. Verifica que XAMPP tenga MySQL encendido.");
+            System.out.println("Fallo en la transacción. Verifique que el RUT exista y la conexión esté activa.");
         }
     }
 }
