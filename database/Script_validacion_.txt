@@ -1,0 +1,27 @@
+USE db_consultenos;
+
+-- 1. Insertar el equipo de trabajo (Utilizando los roles 1: Jefe, 2: Ejecutivo)
+INSERT INTO Usuarios (rut, nombre, email, password, rol_id, estado) VALUES 
+('21204721-K', 'Marco Jopia', 'mjopia@consultenos.cl', 'hash_password_123', 1, 'activo'),
+('26463490-3', 'Jhonatan Cardenas', 'jcardenas@consultenos.cl', 'hash_password_456', 2, 'activo');
+
+-- 2. Insertar un Cliente ficticio validado
+INSERT INTO Clientes (rut, nombre, telefono, email) VALUES 
+('12345678-5', 'Empresa Minera Norte', '+56912345678', 'contacto@empesanorte.cl');
+
+-- 3. Simular la creación de un Tique por el Ejecutivo (HEM-01)
+INSERT INTO Tiques (cliente_rut, ejecutivo_creador_id, descripcion_problema, estado_tique) VALUES 
+('12345678-5', 2, 'Caída de los servicios de red en el sector de administración. Sin acceso a internet.', 'abierto');
+
+-- 4. CONSULTA DE VALIDACIÓN (Esta es la prueba de fuego)
+-- Si las tablas y las claves foráneas están bien hechas, esto mostrará un reporte unificado.
+SELECT 
+    t.id AS Ticket_ID,
+    c.nombre AS Cliente_Afectado,
+    u.nombre AS Ejecutivo_Responsable,
+    t.descripcion_problema,
+    t.fecha_creacion,
+    t.estado_tique
+FROM Tiques t
+INNER JOIN Clientes c ON t.cliente_rut = c.rut
+INNER JOIN Usuarios u ON t.ejecutivo_creador_id = u.id;
